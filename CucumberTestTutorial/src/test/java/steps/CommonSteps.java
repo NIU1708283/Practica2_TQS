@@ -5,8 +5,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.junit.Assert;
 import java.util.HashMap;
 import java.util.Map;
+import java.time.Duration;
 
 public class CommonSteps {
     private static WebDriver driver;
@@ -49,53 +53,73 @@ public class CommonSteps {
     
     @Then("the cart counter should show {string}")
     public void verifyCartCounter(String expectedCount) {
-        org.openqa.selenium.WebElement cartBadge = getDriver().findElement(By.className("shopping_cart_badge"));
-        org.junit.Assert.assertEquals("El contador no es correcto", expectedCount, cartBadge.getText());
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        // Esperar a que el elemento sea visible y tenga el texto esperado
+        org.openqa.selenium.WebElement cartBadge = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test='shopping-cart-badge']")));
+        // Esperar a que tenga el texto correcto
+        wait.until(ExpectedConditions.textToBePresentInElement(cartBadge, expectedCount));
+        Assert.assertEquals("El contador no es correcto", expectedCount, cartBadge.getText());
     }
     
 
     @Then("I should see an error message containing {string}")
     public void verifyErrorMessage(String expectedMsg) {
-        String actualMsg = driver.findElement(By.xpath("//h3[@data-test='error']")).getText();
-        org.junit.Assert.assertTrue(actualMsg.contains(expectedMsg));
+        try {
+            String actualMsg = driver.findElement(By.xpath("//h3[@data-test='error']")).getText();
+            Assert.assertTrue(actualMsg.contains(expectedMsg));
+        } catch (Exception e) {
+            // Intenta buscar cualquier elemento con clase error
+            String actualMsg = driver.findElement(By.xpath("//*[contains(@class, 'error')]")).getText();
+            Assert.assertTrue("El mensaje de error debería contener: " + expectedMsg, actualMsg.contains(expectedMsg));
+        }
     }
     
     @When("I click on the {string} button")
     public void clickButtonById(String buttonName) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         String id = "";
         if (buttonName.equalsIgnoreCase("Checkout")) id = "checkout";
         else if (buttonName.equalsIgnoreCase("Continue")) id = "continue";
         else if (buttonName.equalsIgnoreCase("Finish")) id = "finish";
         
-        driver.findElement(By.id(id)).click();
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(By.id(id))).click();
+        } catch (Exception e) {
+            // Intenta por XPath buscando button por texto (case-insensitive)
+            String xpathLower = "//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + buttonName.toLowerCase() + "')]";
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathLower))).click();
+        }
     }
 
     @When("I go to the cart")
     public void goToCart() {
-        driver.findElement(By.className("shopping_cart_link")).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(By.className("shopping_cart_link"))).click();
     }
     
     @When("I open the sidebar menu")
     public void openSidebar() {
-        driver.findElement(By.id("react-burger-menu-btn")).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("react-burger-menu-btn"))).click();
     }
 
     @When("I select the {string} option")
     public void selectSidebarOption(String optionName) {
-        org.openqa.selenium.support.ui.WebDriverWait wait = 
-            new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         
         String id = "";
         if (optionName.equalsIgnoreCase("Logout")) id = "logout_sidebar_link";
         else if (optionName.equalsIgnoreCase("Reset App State")) id = "reset_sidebar_link";
         
-        wait.until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable(By.id(id))).click();
+        // Esperar a que la opción esté visible y sea clickeable
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(id)));
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(id))).click();
     }
     
     @Then("the cart counter should not be displayed")
     public void verifyCartCounterNotDisplayed() {
         int badgeCount = driver.findElements(By.className("shopping_cart_badge")).size();
-        org.junit.Assert.assertEquals("El contador del carrito no debería ser visible", 0, badgeCount);
+        Assert.assertEquals("El contador del carrito no debería ser visible", 0, badgeCount);
     }
 
     public static WebDriver getDriver() {

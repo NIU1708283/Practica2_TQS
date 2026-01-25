@@ -1,17 +1,23 @@
 package steps;
 
-import io.cucumber.java.en.When;
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.cucumber.java.en.When;
 
 public class AddProductFromDetailsSteps {
 
     @When("I click the {string} button on the details page")
-    public void addProductFromDetails(String buttonText) {
+    public void addProductFromDetails(String buttonText) throws InterruptedException {
         WebDriver driver = CommonSteps.getDriver();
-        // En la página de detalles, el botón suele tener el texto "Add to cart"
-        // Usamos un XPath que busque el botón por su texto para que sea genérico
-        String xpath = "//button[contains(text(), '" + buttonText + "')]";
-        driver.findElement(By.xpath(xpath)).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        // Busca el botón por su atributo data-test
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button[data-test='add-to-cart']"))).click();
+        // Espera más larga para que el DOM se actualice completamente
+        Thread.sleep(1000);
     }
 }

@@ -14,17 +14,21 @@ public class ProductDetailsSteps {
     @When("I click on the name of the product {string}")
     public void clickOnProductName(String productName) {
         WebDriver driver = CommonSteps.getDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        
         // Buscamos el link del nombre que coincida con el texto usando contains() para mayor robustez
-        WebElement productLink = driver.findElement(By.xpath("//a[.//div[@class='inventory_item_name' and contains(text(), '" + productName + "')]]"));
-        productLink.click();
+        String xpath = "//a[contains(., '" + productName + "')]";
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath))).click();
     }
 
     @When("I click on the image of the product {string}")
     public void clickOnProductImage(String productName) {
         WebDriver driver = CommonSteps.getDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        
         // Localizamos el contenedor del producto por su nombre y luego buscamos su imagen asociada
-        String xpath = "//a[.//div[@class='inventory_item_name' and contains(text(), '" + productName + "')]]/ancestor::div[@class='inventory_item']//img";
-        driver.findElement(By.xpath(xpath)).click();
+        String xpath = "//div[contains(text(), '" + productName + "')]/ancestor::div[@class='inventory_item']//img";
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath))).click();
     }
 
     @Then("I should see the details page for {string}")

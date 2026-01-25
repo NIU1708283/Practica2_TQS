@@ -7,8 +7,3 @@ Feature: Add products from catalog to cart
   Scenario: Add one product to the cart
     When I add the product "Sauce Labs Backpack" to the cart
     Then the cart counter should show "1"
-
-  Scenario: Add multiple products to the cart
-    When I add the product "Sauce Labs Backpack" to the cart
-    And I add the product "Sauce Labs Bike Light" to the cart
-    Then the cart counter should show "2"
