@@ -28,7 +28,5 @@ public class ProductNameSortingZASteps {
         Collections.reverse(expectedNames);
 
         Assert.assertEquals("El orden de los productos no es correcto (Z-A)", expectedNames, actualNames);
-        
-        driver.quit();
     }
 }

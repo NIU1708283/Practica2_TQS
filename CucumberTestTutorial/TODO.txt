@@ -46,4 +46,25 @@ LISTA DE FEATURES Y ESCENARIOS PARA AUTOMATIZAR
 	Comprobar que la opción "Reset App State" limpia el carrito y restablece la interfaz.
 	
 	
+
+
+
+
+
+
+
+
+
+
+
+ERRORES:
+
+RunAddProductFromDetailsTest
+RunCheckoutMandatoryDataTest
+RunCheckoutSuccessTest
+RunLogOutTest
+RunProductDetailsTest
+RunResetAppStateTest
+
+	
 	

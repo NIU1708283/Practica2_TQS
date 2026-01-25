@@ -14,8 +14,8 @@ public class ProductDetailsSteps {
     @When("I click on the name of the product {string}")
     public void clickOnProductName(String productName) {
         WebDriver driver = CommonSteps.getDriver();
-        // Buscamos el link del nombre que coincida exactamente con el texto
-        WebElement productLink = driver.findElement(By.xpath("//div[@class='inventory_item_name' and text()='" + productName + "']"));
+        // Buscamos el link del nombre que coincida con el texto usando contains() para mayor robustez
+        WebElement productLink = driver.findElement(By.xpath("//a[.//div[@class='inventory_item_name' and contains(text(), '" + productName + "')]]"));
         productLink.click();
     }
 
@@ -23,7 +23,7 @@ public class ProductDetailsSteps {
     public void clickOnProductImage(String productName) {
         WebDriver driver = CommonSteps.getDriver();
         // Localizamos el contenedor del producto por su nombre y luego buscamos su imagen asociada
-        String xpath = "//div[@class='inventory_item_description' and .//div[text()='" + productName + "']]/preceding-sibling::div[@class='inventory_item_img']//img";
+        String xpath = "//a[.//div[@class='inventory_item_name' and contains(text(), '" + productName + "')]]/ancestor::div[@class='inventory_item']//img";
         driver.findElement(By.xpath(xpath)).click();
     }
 
@@ -36,8 +36,5 @@ public class ProductDetailsSteps {
         WebElement detailsName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_details_name")));
         
         Assert.assertEquals("El nombre del producto en el detalle no es el esperado", expectedName, detailsName.getText());
-        
-        // Importante: Cerramos el driver para limpiar la sesión del test
-        driver.quit();
     }
 }

@@ -12,18 +12,6 @@ import java.util.List;
 
 public class ProductNameSortingAZSteps {
 
-    @When("I sort the products by {string}")
-    public void sortProductsBy(String sortOption) {
-        WebDriver driver = CommonSteps.getDriver();
-        // Localizamos el elemento select del catálogo
-        Select sortSelect = new Select(driver.findElement(By.className("product_sort_container")));
-        
-        // En Swag Labs, la opción "Name (A to Z)" tiene el valor interno "az"
-        if (sortOption.equals("Name (A to Z)")) {
-            sortSelect.selectByValue("az");
-        }
-    }
-
     @Then("the products should be sorted alphabetically from A to Z")
     public void verifyProductsSortedAZ() {
         WebDriver driver = CommonSteps.getDriver();
@@ -40,8 +28,5 @@ public class ProductNameSortingAZSteps {
         Collections.sort(expectedNames);
 
         Assert.assertEquals("El orden de los productos no es correcto (A-Z)", expectedNames, actualNames);
-        
-        // Cerramos el navegador al finalizar el escenario
-        driver.quit();
     }
 }

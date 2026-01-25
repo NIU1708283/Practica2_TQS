@@ -11,7 +11,7 @@ public class AddProductFromDetailsSteps {
         WebDriver driver = CommonSteps.getDriver();
         // En la página de detalles, el botón suele tener el texto "Add to cart"
         // Usamos un XPath que busque el botón por su texto para que sea genérico
-        String xpath = "//button[text()='" + buttonText + "']";
+        String xpath = "//button[contains(text(), '" + buttonText + "')]";
         driver.findElement(By.xpath(xpath)).click();
     }
 }

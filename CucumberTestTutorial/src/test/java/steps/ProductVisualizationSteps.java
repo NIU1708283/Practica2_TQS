@@ -32,8 +32,5 @@ public class ProductVisualizationSteps {
             WebElement image = item.findElement(By.tagName("img"));
             Assert.assertTrue("El producto " + name + " no tiene una imagen visible", image.isDisplayed());
         }
-        
-        // Cerramos el navegador al finalizar la validación del feature
-        driver.quit();
     }
 }

@@ -30,7 +30,5 @@ public class ProductPriceSortingLowHighSteps {
         Collections.sort(expectedPrices);
 
         Assert.assertEquals("L'ordre dels preus no és correcte (Bajo a Alto)", expectedPrices, actualPrices);
-        
-        driver.quit();
     }
 }

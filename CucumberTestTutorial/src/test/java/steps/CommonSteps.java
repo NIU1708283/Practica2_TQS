@@ -51,7 +51,6 @@ public class CommonSteps {
     public void verifyCartCounter(String expectedCount) {
         org.openqa.selenium.WebElement cartBadge = getDriver().findElement(By.className("shopping_cart_badge"));
         org.junit.Assert.assertEquals("El contador no es correcto", expectedCount, cartBadge.getText());
-        getDriver().quit();
     }
     
 
@@ -59,7 +58,6 @@ public class CommonSteps {
     public void verifyErrorMessage(String expectedMsg) {
         String actualMsg = driver.findElement(By.xpath("//h3[@data-test='error']")).getText();
         org.junit.Assert.assertTrue(actualMsg.contains(expectedMsg));
-        driver.quit();
     }
     
     @When("I click on the {string} button")
@@ -93,8 +91,21 @@ public class CommonSteps {
         
         wait.until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable(By.id(id))).click();
     }
+    
+    @Then("the cart counter should not be displayed")
+    public void verifyCartCounterNotDisplayed() {
+        int badgeCount = driver.findElements(By.className("shopping_cart_badge")).size();
+        org.junit.Assert.assertEquals("El contador del carrito no debería ser visible", 0, badgeCount);
+    }
 
     public static WebDriver getDriver() {
         return driver;
+    }
+    
+    @io.cucumber.java.After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
