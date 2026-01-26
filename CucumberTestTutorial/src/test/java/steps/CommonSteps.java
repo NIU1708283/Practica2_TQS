@@ -54,9 +54,7 @@ public class CommonSteps {
     @Then("the cart counter should show {string}")
     public void verifyCartCounter(String expectedCount) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        // Esperar a que el elemento sea visible y tenga el texto esperado
         org.openqa.selenium.WebElement cartBadge = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test='shopping-cart-badge']")));
-        // Esperar a que tenga el texto correcto
         wait.until(ExpectedConditions.textToBePresentInElement(cartBadge, expectedCount));
         Assert.assertEquals("El contador no es correcto", expectedCount, cartBadge.getText());
     }
@@ -68,7 +66,6 @@ public class CommonSteps {
             String actualMsg = driver.findElement(By.xpath("//h3[@data-test='error']")).getText();
             Assert.assertTrue(actualMsg.contains(expectedMsg));
         } catch (Exception e) {
-            // Intenta buscar cualquier elemento con clase error
             String actualMsg = driver.findElement(By.xpath("//*[contains(@class, 'error')]")).getText();
             Assert.assertTrue("El mensaje de error debería contener: " + expectedMsg, actualMsg.contains(expectedMsg));
         }
@@ -85,7 +82,6 @@ public class CommonSteps {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(By.id(id))).click();
         } catch (Exception e) {
-            // Intenta por XPath buscando button por texto (case-insensitive)
             String xpathLower = "//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + buttonName.toLowerCase() + "')]";
             wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathLower))).click();
         }
@@ -111,7 +107,6 @@ public class CommonSteps {
         if (optionName.equalsIgnoreCase("Logout")) id = "logout_sidebar_link";
         else if (optionName.equalsIgnoreCase("Reset App State")) id = "reset_sidebar_link";
         
-        // Esperar a que la opción esté visible y sea clickeable
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(id)));
         wait.until(ExpectedConditions.elementToBeClickable(By.id(id))).click();
     }

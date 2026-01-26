@@ -15,9 +15,7 @@ public class AddProductFromDetailsSteps {
     public void addProductFromDetails(String buttonText) throws InterruptedException {
         WebDriver driver = CommonSteps.getDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        // Busca el botón por su atributo data-test
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button[data-test='add-to-cart']"))).click();
-        // Espera más larga para que el DOM se actualice completamente
         Thread.sleep(1000);
     }
 }

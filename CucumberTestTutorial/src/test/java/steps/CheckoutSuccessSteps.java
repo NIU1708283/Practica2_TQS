@@ -1,13 +1,15 @@
 package steps;
 
-import io.cucumber.java.en.Then;
+import java.time.Duration;
+
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.junit.Assert;
-import java.time.Duration;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.cucumber.java.en.Then;
 
 public class CheckoutSuccessSteps {
 
@@ -16,7 +18,6 @@ public class CheckoutSuccessSteps {
         WebDriver driver = CommonSteps.getDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         
-        // Esperar a que cargue el mensaje de confirmación
         WebElement confirmationElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("complete-header")));
         String actualMessage = confirmationElement.getText().toUpperCase();
         

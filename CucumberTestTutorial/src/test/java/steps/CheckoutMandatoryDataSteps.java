@@ -17,19 +17,16 @@ public class CheckoutMandatoryDataSteps {
         WebDriver driver = CommonSteps.getDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         
-        // Esperar a que los campos estén presentes
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("first-name")));
         
         WebElement firstNameField = driver.findElement(By.id("first-name"));
         WebElement lastNameField = driver.findElement(By.id("last-name"));
         WebElement postalCodeField = driver.findElement(By.id("postal-code"));
         
-        // Limpiar campos primero
         firstNameField.clear();
         lastNameField.clear();
         postalCodeField.clear();
         
-        // Rellenar solo si el valor no está vacío
         if (!firstName.isEmpty()) {
             firstNameField.sendKeys(firstName);
         }

@@ -1,4 +1,3 @@
-# language: en
 Feature: Product Visualization
 
   Background:

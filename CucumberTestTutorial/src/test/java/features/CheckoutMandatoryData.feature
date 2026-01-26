@@ -13,7 +13,7 @@ Feature: Checkout Mandatory Data Validation
     Then I should see an error message containing "<error_message>"
 
     Examples:
-      | first_name | last_name | zip_code | error_message                  		  |
+      | first_name | last_name | zip_code | error_message                  		    |
       |            | Doe       | 12345    | Error: First Name is required         |
       | John       |           | 12345    | Error: Last Name is required          |
       | John       | Doe       |          | Error: Postal Code is required        |

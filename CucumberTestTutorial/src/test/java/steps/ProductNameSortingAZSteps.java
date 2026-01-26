@@ -1,21 +1,21 @@
 package steps;
 
-import io.cucumber.java.en.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-import org.junit.Assert;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import io.cucumber.java.en.Then;
 
 public class ProductNameSortingAZSteps {
 
     @Then("the products should be sorted alphabetically from A to Z")
     public void verifyProductsSortedAZ() {
         WebDriver driver = CommonSteps.getDriver();
-        // Obtenemos todos los nombres de productos mostrados
         List<WebElement> productElements = driver.findElements(By.className("inventory_item_name"));
         
         List<String> actualNames = new ArrayList<>();
@@ -23,7 +23,6 @@ public class ProductNameSortingAZSteps {
             actualNames.add(element.getText());
         }
 
-        // Creamos una copia y la ordenamos alfabéticamente (A-Z) para comparar
         List<String> expectedNames = new ArrayList<>(actualNames);
         Collections.sort(expectedNames);
 

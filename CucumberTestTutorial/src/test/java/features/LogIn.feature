@@ -1,4 +1,3 @@
-
 Feature: Swag Labs Authentication
 
   Background:

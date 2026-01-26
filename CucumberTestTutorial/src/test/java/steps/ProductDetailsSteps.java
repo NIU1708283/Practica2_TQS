@@ -1,13 +1,16 @@
 package steps;
 
-import io.cucumber.java.en.*;
+import java.time.Duration;
+
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.junit.Assert;
-import java.time.Duration;
+
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 
 public class ProductDetailsSteps {
 
@@ -16,7 +19,6 @@ public class ProductDetailsSteps {
         WebDriver driver = CommonSteps.getDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         
-        // Buscamos el link del nombre que coincida con el texto usando contains() para mayor robustez
         String xpath = "//a[contains(., '" + productName + "')]";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath))).click();
     }
@@ -26,7 +28,6 @@ public class ProductDetailsSteps {
         WebDriver driver = CommonSteps.getDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         
-        // Localizamos el contenedor del producto por su nombre y luego buscamos su imagen asociada
         String xpath = "//div[contains(text(), '" + productName + "')]/ancestor::div[@class='inventory_item']//img";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath))).click();
     }
@@ -36,9 +37,7 @@ public class ProductDetailsSteps {
         WebDriver driver = CommonSteps.getDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         
-        // Esperamos a que cargue el nombre en la página de detalles
         WebElement detailsName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_details_name")));
-        
         Assert.assertEquals("El nombre del producto en el detalle no es el esperado", expectedName, detailsName.getText());
     }
 }

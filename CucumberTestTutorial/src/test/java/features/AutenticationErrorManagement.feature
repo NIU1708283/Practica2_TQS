@@ -1,4 +1,3 @@
-
 Feature: Authentication Error Management
 
   Background:
